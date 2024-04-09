@@ -1,24 +1,31 @@
-package shop.mtcoding.blog.controller;
+package shop.mtcoding.blog.controller.user;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@RequiredArgsConstructor
 @Controller
 public class UserController {
 
+    private final UserService userService ;
+    private final HttpSession session ;
+
     @GetMapping("/join-form")
     public String joinForm() {
-        return "join-form";
+        return "user/join-form";
     }
 
     @GetMapping("/login-form")
     public String loginForm() {
-        return "login-form";
+        return "user/login-form";
     }
 
     @GetMapping("/user/update-form")
     public String updateForm() {
-        return "update-form";
+        return "user/update-form";
     }
 
     @GetMapping("/logout")
