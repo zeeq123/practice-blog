@@ -18,10 +18,19 @@ public class BoardController {
     private final BoardService boardService;
     private final HttpSession session;
 
+    @PostMapping("/board/{boardId}/delete")
+    public String delete(@PathVariable Integer boardId) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+
+        boardService.delete(boardId, sessionUser.getId());
+
+        return "redirect:/";
+    }
+
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO requestDTO) {
         boardService.save(requestDTO);
-        
+
         return "redirect:/";
     }
 
@@ -48,6 +57,8 @@ public class BoardController {
 
     @GetMapping("/board/{boardId}")
     public String detail(@PathVariable Integer boardId) {
+
+
         return "board/detail";
     }
 

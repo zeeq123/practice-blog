@@ -16,6 +16,17 @@ public class BoardService {
     private final BoardJPARepository boardJPARepository;
 
     @Transactional
+    public void delete(Integer boardId, Integer sessionUserId) {
+        Board board = boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("존재하지 않는 글입니다."));
+
+        if (board.getUser().getId() != sessionUserId) {
+            throw new Exception403("삭제할 권한이 없습니다.");
+        }
+
+        boardJPARepository.deleteById(board.getId());
+    }
+
+    @Transactional
     public void save(BoardRequest.SaveDTO requestDTO) {
         Board board = Board.builder()
                 .title(requestDTO.getTitle())
