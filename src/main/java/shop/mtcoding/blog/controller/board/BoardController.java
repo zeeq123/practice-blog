@@ -1,19 +1,30 @@
 package shop.mtcoding.blog.controller.board;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class BoardController {
 
-    private final BoardService boardService ;
+    private final BoardService boardService;
     private final HttpSession session;
 
-    @GetMapping({ "/"})
-    public String index() {
+    @GetMapping({"/"})
+    public String index(HttpServletRequest request) {
+        List<BoardResponse.MainDTO> responseDTO = new ArrayList<>();
+
+        boardService.findAllBoard().stream().forEach(board -> responseDTO.add(new BoardResponse.MainDTO(board)));
+        
+        request.setAttribute("boardList", responseDTO);
+
         return "index";
     }
 
@@ -28,5 +39,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{boardId}/update-form")
-    public String updateForm(@PathVariable Integer boardId){return "board/update-form";}
+    public String updateForm(@PathVariable Integer boardId) {
+        return "board/update-form";
+    }
 }

@@ -8,8 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.controller.user.User;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -18,9 +16,9 @@ import java.util.List;
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id ;
-    private String title ;
-    private String content ;
+    private Integer id;
+    private String title;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
