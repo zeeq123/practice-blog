@@ -16,16 +16,14 @@ public class UserController {
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
         SessionUser sessionUser = new SessionUser(userService.login(requestDTO));
-
         session.setAttribute("sessionUser", sessionUser);
-        
+
         return "redirect:/";
     }
 
     @PostMapping("/join") // 회원가입
     public String join(UserRequest.JoinDTO requestDTO) {
         SessionUser sessionUser = new SessionUser(userService.createUser(requestDTO));
-
         session.setAttribute("sessionUser", sessionUser);
 
         return "redirect:/";
@@ -48,6 +46,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
+        session.invalidate();
         return "redirect:/";
     }
 }
