@@ -17,6 +17,7 @@ public class UserService {
     @Transactional
     public void updateUser(Integer id, UserRequest.UpdateDTO requestDTO) {
         User user = userJPARepository.findById(id).orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
+
         user.setPassword(requestDTO.getPassword());
         user.setEmail(requestDTO.getEmail());
     }
@@ -30,10 +31,13 @@ public class UserService {
     @Transactional // 회원가입
     public User createUser(UserRequest.JoinDTO requestDTO) {
         Optional<User> userOP = userJPARepository.findByUsername(requestDTO.getUsername());
+
         if (userOP.isPresent()) {
             throw new Exception400("이미 존재하는 유저입니다.");
         }
+
         User user = new User(requestDTO);
+
         return userJPARepository.save(user);
     }
 }
