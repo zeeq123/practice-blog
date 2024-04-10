@@ -1,7 +1,6 @@
 package shop.mtcoding.blog.controller.user;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
-    private final UserService userService ;
-    private final HttpSession session ;
+    private final UserService userService;
+    private final HttpSession session;
+
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO) {
+        SessionUser sessionUser = new SessionUser(userService.login(requestDTO));
+
+        session.setAttribute("sessionUser", sessionUser);
+        
+        return "redirect:/";
+    }
 
     @PostMapping("/join") // 회원가입
-    public String join(UserRequest.JoinDTO requestDTO){
-        User user = userService.createUser(requestDTO);
-        session.setAttribute("sessionUser", user);
+    public String join(UserRequest.JoinDTO requestDTO) {
+        SessionUser sessionUser = new SessionUser(userService.createUser(requestDTO));
+
+        session.setAttribute("sessionUser", sessionUser);
 
         return "redirect:/";
     }

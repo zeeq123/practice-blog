@@ -2,5 +2,9 @@ package shop.mtcoding.blog.controller.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserJPARepository extends JpaRepository<User,Integer> {
+import java.util.Optional;
+
+public interface UserJPARepository extends JpaRepository<User, Integer> {
+
+    Optional<User> findByUsernameAndPassword();
 }
