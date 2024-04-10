@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
 import shop.mtcoding.blog._core.errors.exception.Exception401;
+import shop.mtcoding.blog._core.errors.exception.Exception404;
 
 import java.util.Optional;
 
@@ -12,6 +13,13 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserJPARepository userJPARepository;
+
+    @Transactional
+    public void updateUser(Integer id, UserRequest.UpdateDTO requestDTO) {
+        User user = userJPARepository.findById(id).orElseThrow(() -> new Exception404("존재하지 않는 유저입니다."));
+        user.setPassword(requestDTO.getPassword());
+        user.setEmail(requestDTO.getEmail());
+    }
 
     public User login(UserRequest.LoginDTO requestDTO) {
         User user = userJPARepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword()).orElseThrow(() -> new Exception401("아이디 또는 비밀번호가 틀렸습니다."));

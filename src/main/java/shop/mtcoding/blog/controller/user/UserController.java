@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
@@ -12,6 +13,13 @@ public class UserController {
 
     private final UserService userService;
     private final HttpSession session;
+
+    @PostMapping("/user/{userId}/update")
+    public String update(@PathVariable Integer userId, UserRequest.UpdateDTO requestDTO) {
+        userService.updateUser(userId, requestDTO);
+
+        return "redirect:/";
+    }
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
