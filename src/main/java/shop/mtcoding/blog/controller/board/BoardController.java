@@ -18,10 +18,17 @@ public class BoardController {
     private final BoardService boardService;
     private final HttpSession session;
 
+    @PostMapping("/board/save")
+    public String save(BoardRequest.SaveDTO requestDTO) {
+        boardService.save(requestDTO);
+        
+        return "redirect:/";
+    }
+
     @PostMapping("/board/{boardId}/update")
     public String update(@PathVariable Integer boardId, BoardRequest.UpdateDTO requestDTO) {
         boardService.update(boardId, requestDTO);
-        
+
         return "redirect:/board/" + boardId;
     }
 

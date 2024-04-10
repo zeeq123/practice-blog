@@ -16,6 +16,15 @@ public class BoardService {
     private final BoardJPARepository boardJPARepository;
 
     @Transactional
+    public void save(BoardRequest.SaveDTO requestDTO) {
+        Board board = Board.builder()
+                .title(requestDTO.getTitle())
+                .content(requestDTO.getContent())
+                .build();
+        boardJPARepository.save(board);
+    }
+
+    @Transactional
     public void update(Integer boardId, BoardRequest.UpdateDTO requestDTO) {
         Board board = boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("존재하지 않는 글입니다."));
 
