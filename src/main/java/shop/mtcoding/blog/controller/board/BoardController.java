@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog.controller.user.SessionUser;
 
 import java.util.List;
@@ -16,6 +17,13 @@ public class BoardController {
 
     private final BoardService boardService;
     private final HttpSession session;
+
+    @PostMapping("/board/{boardId}/update")
+    public String update(@PathVariable Integer boardId, BoardRequest.UpdateDTO requestDTO) {
+        boardService.update(boardId, requestDTO);
+        
+        return "redirect:/board/" + boardId;
+    }
 
     @GetMapping({"/"})
     public String index(HttpServletRequest request) {
