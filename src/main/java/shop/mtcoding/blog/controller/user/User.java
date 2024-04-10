@@ -33,9 +33,4 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public User(UserRequest.JoinDTO requestDTO) {
-        this.username = requestDTO.getUsername();
-        this.password = requestDTO.getPassword();
-        this.email = getEmail();
-    }
 }

@@ -36,7 +36,11 @@ public class UserService {
             throw new Exception400("이미 존재하는 유저입니다.");
         }
 
-        User user = new User(requestDTO);
+        User user = User.builder()
+                .username(requestDTO.getUsername())
+                .password(requestDTO.getPassword())
+                .email(requestDTO.getEmail())
+                .build();
 
         return userJPARepository.save(user);
     }
