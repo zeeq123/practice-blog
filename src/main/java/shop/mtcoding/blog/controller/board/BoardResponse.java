@@ -2,6 +2,7 @@ package shop.mtcoding.blog.controller.board;
 
 import lombok.Data;
 import shop.mtcoding.blog.controller.reply.Reply;
+import shop.mtcoding.blog.controller.user.User;
 
 import java.util.List;
 
@@ -41,5 +42,14 @@ public class BoardResponse {
 
         private List<Reply> replyList;
 
+        private Boolean isBoardOwner = false;
+
+        public DetailDTO(Board board, User user, List<Reply> replyList) {
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.username = user.getUsername();
+            this.replyList = replyList;
+        }
     }
 }

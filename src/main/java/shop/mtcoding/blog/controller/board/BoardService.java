@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception403;
 import shop.mtcoding.blog._core.errors.exception.Exception404;
+import shop.mtcoding.blog.controller.reply.Reply;
+import shop.mtcoding.blog.controller.reply.ReplyJPARepository;
+import shop.mtcoding.blog.controller.user.SessionUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,24 @@ import java.util.List;
 @Service
 public class BoardService {
     private final BoardJPARepository boardJPARepository;
+    private final ReplyJPARepository replyJPARepository;
+
+    @Transactional(readOnly = true)
+    public BoardResponse.DetailDTO detail(Integer boardId, SessionUser sessionUser) {
+        Board board = boardJPARepository.findById(boardId).orElseThrow(() -> new Exception404("존재하지 않는 글입니다."));
+
+        List<Reply> replyList = replyJPARepository.findAllByBoardId(boardId).orElse(null);
+
+        BoardResponse.DetailDTO responseDTO = new BoardResponse.DetailDTO(board, board.getUser(), replyList);
+
+        if (sessionUser != null) {
+            if (board.getUser().getId() == sessionUser.getId()) {
+                responseDTO.setIsBoardOwner(true);
+            }
+        }
+
+        return responseDTO;
+    }
 
     @Transactional
     public void delete(Integer boardId, Integer sessionUserId) {

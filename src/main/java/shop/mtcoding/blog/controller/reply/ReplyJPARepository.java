@@ -2,5 +2,10 @@ package shop.mtcoding.blog.controller.reply;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReplyJPARepository extends JpaRepository<Reply,Integer> {
+import java.util.List;
+import java.util.Optional;
+
+public interface ReplyJPARepository extends JpaRepository<Reply, Integer> {
+
+    Optional<List<Reply>> findAllByBoardId(Integer boardId);
 }

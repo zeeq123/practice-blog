@@ -26,13 +26,8 @@ public class Board {
     @CreationTimestamp
     private Timestamp createdAt;
 
-//    @OrderBy("id desc")
-//    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-//    private List<Reply> replies = new ArrayList<>();
-
-
-    @Transient
-    private boolean isBoardOwner;
+//    @Transient
+//    private boolean isBoardOwner = false;
 
 
     @Builder
